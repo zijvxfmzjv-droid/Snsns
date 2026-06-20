@@ -1,4 +1,4 @@
--- @uniquadev CONVERTER -> Dynamic UI Library (Dictionary Format)
+-- @uniquadev CONVERTER -> Dynamic UI Library (Dictionary Format + Paragraphs)
 local Library = {}
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -142,7 +142,70 @@ function Library:CreateWindow(options)
         HeaderTitle.Text = title
         HeaderTitle.Parent = Category
 
-        -- Tab Methods (Toggle, Slider, etc.)
+        -- Paragraph Method (Header + Line + Text Block)
+        function Tab:Paragraph(opt)
+            local titleText = opt.Title or "Header"
+            local contentText = opt.Content or "Text goes here"
+
+            local ParagraphGroup = Instance.new("Frame")
+            ParagraphGroup.Name = "ParagraphGroup"
+            ParagraphGroup.Size = UDim2.new(0.9, 0, 0, 0)
+            ParagraphGroup.BackgroundTransparency = 1
+            ParagraphGroup.AutomaticSize = Enum.AutomaticSize.Y
+            ParagraphGroup.Parent = Contents
+
+            local ParaLayout = Instance.new("UIListLayout")
+            ParaLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            ParaLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            ParaLayout.Padding = UDim.new(0, 8)
+            ParaLayout.Parent = ParagraphGroup
+
+            local BoldFont = Font.new("rbxasset://fonts/families/AccanthisADFStd.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+
+            local TitleLabel = Instance.new("TextLabel")
+            TitleLabel.Name = "Header"
+            TitleLabel.Size = UDim2.new(1, 0, 0, 30)
+            TitleLabel.BackgroundTransparency = 1
+            TitleLabel.FontFace = BoldFont
+            TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TitleLabel.TextScaled = true
+            TitleLabel.Text = titleText
+            TitleLabel.LayoutOrder = 1
+            TitleLabel.Parent = ParagraphGroup
+
+            local SeparatorContainer = Instance.new("Frame")
+            SeparatorContainer.Name = "SeparatorContainer"
+            SeparatorContainer.Size = UDim2.new(1, 0, 0, 5)
+            SeparatorContainer.BackgroundTransparency = 1
+            SeparatorContainer.LayoutOrder = 2
+            SeparatorContainer.Parent = ParagraphGroup
+
+            local Line = Instance.new("Frame")
+            Line.Name = "MainLine"
+            Line.Size = UDim2.new(0.85, 0, 1, 0)
+            Line.Position = UDim2.new(0.5, 0, 0, 0)
+            Line.AnchorPoint = Vector2.new(0.5, 0)
+            Line.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Line.BorderSizePixel = 0
+            Line.Parent = SeparatorContainer
+
+            local ContentLabel = Instance.new("TextLabel")
+            ContentLabel.Name = "Content"
+            ContentLabel.Size = UDim2.new(0.95, 0, 0, 0)
+            ContentLabel.BackgroundTransparency = 1
+            ContentLabel.FontFace = CustomFont
+            ContentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ContentLabel.TextSize = 20
+            ContentLabel.TextXAlignment = Enum.TextXAlignment.Left
+            ContentLabel.TextYAlignment = Enum.TextYAlignment.Top
+            ContentLabel.TextWrapped = true
+            ContentLabel.RichText = true
+            ContentLabel.Text = contentText
+            ContentLabel.AutomaticSize = Enum.AutomaticSize.Y
+            ContentLabel.LayoutOrder = 3
+            ContentLabel.Parent = ParagraphGroup
+        end
+
         function Tab:Toggle(opt)
             local name = opt.Title or "Toggle"
             local desc = opt.Description or ""
